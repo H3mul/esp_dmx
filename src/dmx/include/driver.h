@@ -231,6 +231,14 @@ size_t dmx_read(dmx_port_t dmx_num, void *destination, size_t size);
 int dmx_read_slot(dmx_port_t dmx_num, size_t slot_num);
 
 /**
+ * @brief Gets the DMX driver status.
+ *
+ * @param dmx_num The DMX port number.
+ * @return The current DMX driver status enum value
+ */
+int dmx_get_status(dmx_port_t dmx_num);
+
+/**
  * @brief Writes DMX data from a source buffer into the DMX driver buffer with
  * an offset. Allows a source buffer to be written to a specific slot number in
  * the DMX driver buffer.

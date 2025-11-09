@@ -52,6 +52,20 @@ int dmx_read_slot(dmx_port_t dmx_num, size_t slot_num) {
   return slot;
 }
 
+int dmx_get_status(dmx_port_t dmx_num) {
+  DMX_CHECK(dmx_num < DMX_NUM_MAX, 0, "dmx_num error");
+  DMX_CHECK(dmx_driver_is_installed(dmx_num), 0, "driver is not installed");
+  DMX_CHECK(dmx_driver_is_enabled(dmx_num), 0, "driver is not enabled");
+
+  dmx_driver_t *const driver = dmx_driver[dmx_num];
+
+  int dmx_status;
+  taskENTER_CRITICAL(DMX_SPINLOCK(dmx_num));
+  dmx_status = driver->dmx.status;
+  taskEXIT_CRITICAL(DMX_SPINLOCK(dmx_num));
+  return dmx_status;
+}
+
 size_t dmx_write_offset(dmx_port_t dmx_num, size_t offset, const void *source,
                         size_t size) {
   DMX_CHECK(dmx_num < DMX_NUM_MAX, 0, "dmx_num error");
